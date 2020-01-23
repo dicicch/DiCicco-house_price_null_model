@@ -1,10 +1,21 @@
 # ignore all files in this dir...
 *
+*/.DS_Store
+*/.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.Rproj.user
 
 # ... except for these
 !.gitignore
 !.gitkeep
-!models/_empty_model.txt
+!data/
+!models/
+!data/*
+!models/*
 
 # ...even if they are in subdirectories
 !*/
