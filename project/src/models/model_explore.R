@@ -23,3 +23,10 @@ x5 = d.full[,PoolArea]
 fit = lm(y ~ x1 + x2 + x3 + x4 + x5)
 par(mfrow=c(2,2))
 plot(fit)
+
+d.full = d.full[-6020,]
+fit = lm(y ~ x1 + x2 + x3 + x4 + x5)
+par(mfrow=c(2,2))
+plot(fit)
+
+cooks.distance(fit)
