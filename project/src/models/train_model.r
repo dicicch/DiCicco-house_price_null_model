@@ -9,7 +9,7 @@ d.train = fread("project/volume/data/interim/data_train.csv")
 d.test = fread("project/volume/data/interim/data_test.csv")
 
 y = d.train[,SalePrice]
-x1 = d.train[,LotArea]
+x1 = log(d.train[,LotArea])
 x2 = d.train[,YearBuilt]
 x3 = d.train[,TotalBsmtSF]
 x4 = d.train[,GrLivArea]
@@ -21,9 +21,11 @@ x8 = d.train[,BldgType]
 fit = lm(y ~ x1 + x2 + x3 + x4 + x5, data=d.train)
 summary(fit)
 
-predictions = predict.lm(fit, d.test)
+sqrt(mean(fit$residuals^2))
+
+predictions = as.data.table(round(predict.lm(fit, d.test), 2))
 
 predictions = cbind(d.test[,Id], predictions)
-colnames(predictions) = c("Id", "Prediction")
+names(predictions) = c("Id","SalePrice")
 
-fwrite(predictions, "./project/predictions.csv")
+fwrite(predictions, "./project/predictions.csv", row.names = F)

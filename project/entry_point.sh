@@ -1,4 +1,4 @@
 #!/bin/bash
 
 
-Rscript src/your_scripts.R
+Rscript ../run_project.R
