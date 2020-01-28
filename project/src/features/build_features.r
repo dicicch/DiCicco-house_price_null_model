@@ -1,6 +1,7 @@
 library("data.table")
 library("tidyr")
 library("dplyr")
+library("outliers")
 
 readWithParams = function(filein){
   return(as.data.table(
