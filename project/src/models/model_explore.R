@@ -1,6 +1,7 @@
 library("data.table")
 library("outliers")
 library("corrplot")
+library("e1071")
 library("tidyr")
 library("plyr")
 
@@ -24,16 +25,6 @@ d.full.nooutlier = d.full[which(apply(outlier(d.numonly, logical = T), 1, any)),
 p.cor = cor(d.numonly)
 corrplot(p.cor)
 
-y  = d.full.nooutlier[,SalePrice]
-x1 = d.full.nooutlier[,OverallQual]
-x2 = d.full.nooutlier[,YearBuilt]
-x3 = d.full.nooutlier[,TotalBsmtSF]
-x4 = d.full.nooutlier[,GrLivArea]
-x5 = d.full.nooutlier[,PoolArea]
-x6 = d.full.nooutlier[,Heating]
-x7 = d.full.nooutlier[,CentralAir]
-x8 = d.full.nooutlier[,BldgType]
-
 fit = lm(SalePrice ~ OverallQual + TotalBsmtSF
          + GrLivArea + YearBuilt + OverallQual:YearBuilt, data=d.full.nooutlier)
 
@@ -43,5 +34,14 @@ par(mfrow=c(2,2))
 plot(fit)
 
 sqrt(mean(fit$residuals^2))
+
+fit = svm(SalePrice ~ OverallQual + TotalBsmtSF
+          + GrLivArea + YearBuilt,
+          data=d.full.nooutlier,
+          kernel="radial",
+          cross=20
+          )
+
+summary(fit)
 
 fwrite(d.full.nooutlier, "./project/volume/data/processed/data_full_processed_nooutliers.csv")
